@@ -103,9 +103,14 @@ class Vector3 {
     static dot(other1, other2) {
         // Insert your code here.
         let d = 0; // Modify this line to calculate this vector's magnitude.
+        const other1Elements = other1.elements;
+        const other2Elements = other2.elements;
+
+        const multipliedVector = other1Elements.map((value, index) => value * other2Elements[index])
+        const dotSum = multipliedVector.reduce((total, current) => total + current, 0)
 
         // Don't delete the return statement.
-        return d;
+        return dotSum;
     }
 
     /**
@@ -128,9 +133,13 @@ class Vector3 {
     magnitude() {
         // Insert your code here.
         let m = 0; // Modify this line to calculate this vector's magnitude.
+        const elements = this.elements
+
+        const sumSquare =  elements.reduce((total, current) => total + Math.pow(current, 2), 0)
+        const magnitude = Math.sqrt(sumSquare)
 
         // Don't delete the return statement.
-        return m;
+        return magnitude;
     };
 
     /**
@@ -141,8 +150,11 @@ class Vector3 {
         // Insert your code here.
         // This function should change this vector (this.elements) and not create a new vector.
 
+        const magnitude = this.magnitude();
+        const elementVector = this.elements.map((value) => value / magnitude)
+        const normalizedVector = new Vector3(elementVector)
         // Don't delete the return statement.
-        return this;
+        return normalizedVector;
     };
 }
 

@@ -48,9 +48,6 @@ const handleDrawEvent = () => {
   const blueXValue = getInputBoxValue(".blueVec", 'input[name="x"]') 
   const blueYValue = getInputBoxValue(".blueVec", 'input[name="y"]') 
 
-  const operationValue = getInputBoxValue(".operation", 'select[name="operation"]') 
-  const scalarValue = getInputBoxValue(".operation", 'input[name="scalar"]') 
-
   clearCanvas()
   const redDimVec = new Vector3([redXValue, redYValue, 0]);
   const blueDimVec = new Vector3([blueXValue, blueYValue, 0]);
@@ -59,7 +56,18 @@ const handleDrawEvent = () => {
   drawVector(blueDimVec, "blue")
 }
 
+const angleBetween = (v1, v2) => {
+  const dotProduct = Vector3.dot(v1, v2);
+  const magV1 = v1.magnitude()
+  const magV2 = v2.magnitude()
+  const cosAlpha = dotProduct / magV1 / magV2;
+  const alphaRadians = Math.acos(cosAlpha);
+  const alphaDegress = alphaRadians * (180 / Math.PI);
+  return alphaDegress;
+}
+
 const handleDrawOperationEvent = () => {
+
   const redXValue = getInputBoxValue(".redVec", 'input[name="x"]') 
   const redYValue = getInputBoxValue(".redVec", 'input[name="y"]') 
   const blueXValue = getInputBoxValue(".blueVec", 'input[name="x"]') 
@@ -71,8 +79,9 @@ const handleDrawOperationEvent = () => {
   const redDimVec = new Vector3([redXValue, redYValue, 0]);
   const blueDimVec = new Vector3([blueXValue, blueYValue, 0]);
 
+
   clearCanvas()
-  if (operationValue === "add" || operationValue === "subtract") {
+  if (operationValue === "add" || operationValue === "sub" || operationValue === "norm") {
     drawVector(redDimVec, "red")
     drawVector(blueDimVec, "blue")
   } 
@@ -95,6 +104,21 @@ const handleDrawOperationEvent = () => {
     case "mul":
       greenDimVector = redDimVec.mul(scalarValue)
       greenDimVector2 = blueDimVec.mul(scalarValue)
+      break;
+    case "norm":
+      greenDimVector = redDimVec.normalize(scalarValue)
+      greenDimVector2 = blueDimVec.normalize(scalarValue)
+      break;
+    case "mag":
+      const redMag = redDimVec.magnitude()
+      const greenMag = blueDimVec.magnitude()
+      console.log(`Magnitude v1: ${redMag}`);
+      console.log(`Magnitude v2: ${greenMag}`);
+      break;
+    case "ang":
+      const angle = angleBetween(redDimVec, blueDimVec);
+      console.log(angle)
+
       break;
     default: 
       console.log("something went wrong")
