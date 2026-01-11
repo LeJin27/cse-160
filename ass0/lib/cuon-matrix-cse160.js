@@ -48,9 +48,8 @@ class Vector3 {
         // This function should change this vector (this.elements) and not create a new vector.
         // Don't delete the return statement.
         const otherElements = other.elements
-        const elementvector = this.elements.map((value, index) => value + otherElements[index])
-        const sumVector = new Vector3(elementvector)
-        return sumVector;
+        this.elements = this.elements.map((value, index) => value + otherElements[index])
+        return this;
     };
 
     /**
@@ -63,9 +62,8 @@ class Vector3 {
 
         // Don't delete the return statement.
         const otherElements = other.elements
-        const elementVector = this.elements.map((value, index) => value - otherElements[index])
-        const subVector = new Vector3(elementVector)
-        return subVector;
+        this.elements = this.elements.map((value, index) => value - otherElements[index])
+        return this;
     };
 
     /**
@@ -77,9 +75,8 @@ class Vector3 {
         // This function should change this vector (this.elements) and not create a new vector.
 
         // Don't delete the return statement.
-        const elementVector = this.elements.map((value) => value / scalar)
-        const divVector = new Vector3(elementVector)
-        return divVector;
+        this.elements = this.elements.map((value) => value / scalar)
+        return this;
     };
 
     /**
@@ -91,9 +88,8 @@ class Vector3 {
         // This function should change this vector (this.elements) and not create a new vector.
 
         // Don't delete the return statement.
-        const elementVector = this.elements.map((value) => value * scalar)
-        const mulVector = new Vector3(elementVector)
-        return mulVector;
+        this.elements = this.elements.map((value) => value * scalar)
+        return this;
     };
 
     /**
@@ -120,8 +116,17 @@ class Vector3 {
     static cross(other1, other2) {
         // Insert your code here.
         // This function should create and return a new vector.
-        let v3 = new Vector3(); // Modify this line to calculate cross product between other1 and other2.
 
+        // [0, 1, 2]
+        const v1 = other1.elements
+        
+        // [0, 1, 2]
+        const v2 = other2.elements
+
+        const i = (v1[1] * v2[2]) - (v2[1] * v1[2])
+        const j = (v1[0] * v2[2]) - (v2[0] * v1[2])
+        const k = (v1[0] * v2[1]) - (v2[0] * v1[1])
+        const v3 = new Vector3([i, -j, k])
         // Don't delete the return statement.
         return v3;
     }
@@ -151,10 +156,9 @@ class Vector3 {
         // This function should change this vector (this.elements) and not create a new vector.
 
         const magnitude = this.magnitude();
-        const elementVector = this.elements.map((value) => value / magnitude)
-        const normalizedVector = new Vector3(elementVector)
+        this.elements = this.elements.map((value) => value / magnitude)
         // Don't delete the return statement.
-        return normalizedVector;
+        return this;
     };
 }
 
