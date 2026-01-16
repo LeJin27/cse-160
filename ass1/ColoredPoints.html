@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Draw a point (1)</title>
+  </head>
+
+  <body onload="main()">
+    <canvas id="webgl" width="400" height="400">
+    Please use a browser that supports "canvas"
+    </canvas>
+    <button type = "button" id = "green">Green</button>
+    <button type = "button" id = "red">Red</button>
+    <button type = "button" id = "clearButton">Clear</button>
+    <button type = "button" id = "pointButton">Point</button>
+    <button type = "button" id = "triangleButton">Triangle</button>
+
+    <div id = "numdot">xxx</div>
+
+    <div>
+      Red <input type =  "range" min = "0" max = "100" value = "100" class = "slider" id = "redSlide">
+    </div>
+    <div>
+      Blue <input type =  "range" min = "0" max = "100" value = "100" class = "slider" id = "blueSlide">
+    </div>
+    <div>
+      Green <input type =  "range" min = "0" max = "100" value = "100" class = "slider" id = "greenSlide">
+    </div>
+
+    <div>
+      Size <input type =  "range" min = "5" max = "40" value = "5" class = "slider" id = "sizeSlide">
+    </div>
+
+
+
+
+
+
+    <script src="./lib/webgl-utils.js"></script>
+    <script src="./lib/webgl-debug.js"></script>
+    <script src="./lib/cuon-utils.js"></script>
+    <script src="Triangle.js"></script>
+    <script src="ColoredPoints.js"></script>
+    <script src="Point.js"></script>
+  </body>
+</html>
