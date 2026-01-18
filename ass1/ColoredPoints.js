@@ -33,6 +33,8 @@ let g_shapesList = []; // array holds shapes
 let g_buffer;
 let placeholder_preset = `[{"type":"point","position":[0.105,0.015],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.1,0.015],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.1,0.02],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.095,0.02],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.085,0.03],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.06,0.065],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.025,0.11],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.01,0.135],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.005,0.165],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.02,0.19],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.035,0.225],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.055,0.27],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.065,0.31],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.075,0.345],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.075,0.365],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.075,0.375],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.075,0.39],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.075,0.405],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.075,0.42],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.075,0.43],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.075,0.44],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.075,0.45],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.075,0.455],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.07,0.455],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.07,0.455],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.065,0.455],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.06,0.445],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.06,0.425],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.055,0.39],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.055,0.345],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.055,0.27],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.05,0.175],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.045,0.075],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.03,-0.005],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.01,-0.085],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.015,-0.175],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.04,-0.26],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.065,-0.335],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.08,-0.375],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.09,-0.41],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.105,-0.455],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.12,-0.495],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.13,-0.525],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.135,-0.545],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.14,-0.565],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.145,-0.58],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.145,-0.595],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.15,-0.6],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.15,-0.605],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.15,-0.61],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.15,-0.61],"color":[1,1,1,1],"size":5}]`;
 
+const importInputTextBox = document.getElementById("importInput")
+
 const setupWebGL = () => {
   // Retrieve <canvas> element
   canvas = document.getElementById("webgl");
@@ -145,7 +147,7 @@ const resetHtmlSliders = () => {
 };
 
 const addActionsForHtmlUI = () => {
-  document.getElementById("importInput").value = "Invalid preset format!";
+  importInputTextBox.value = "Invalid preset format!";
   document.getElementById("green").onclick = function () {
     g_selectedColor = [0.0, 1.0, 0.0, 1.0];
   };
@@ -198,10 +200,10 @@ const addActionsForHtmlUI = () => {
 const exportPreset = () => {
   const exportedPreset = JSON.stringify(g_shapesList);
   //console.log(current_preset)
-  document.getElementById("importInput").value = exportedPreset;
+  importInputTextBox.value = exportedPreset;
 };
 const importPreset = () => {
-  const currentPreset = document.getElementById("importInput").value;
+  const currentPreset = importInputTextBox.value;
   try {
     const parsedJson = JSON.parse(currentPreset);
     g_shapesList = parsedJson.map((s) => {
@@ -222,17 +224,15 @@ const importPreset = () => {
         default:
           shape = new Point();
       }
-      if (shape.type != 'drawing') {
         shape.position = s.position;
         shape.color = s.color;
         shape.size = s.size;
-      }
       return shape;
     });
     renderAllShapes();
   } catch {
     g_shapesList = [];
-    document.getElementById("importInput").value = "Invalid preset format!";
+    importInputTextBox.value = "Invalid preset format!";
     renderAllShapes();
     console.log("invalid json");
   }
