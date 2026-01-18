@@ -45,6 +45,8 @@ const setupWebGL = () => {
     console.log("Failed to get the rendering context for WebGL");
     return;
   }
+  
+  // enable transparency
   gl.enable(gl.BLEND);
   gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 };
@@ -148,6 +150,7 @@ const resetHtmlSliders = () => {
   document.getElementById("redSlide").value = 100;
   document.getElementById("greenSlide").value = 100;
   document.getElementById("blueSlide").value = 100;
+  document.getElementById("opacitySlide").value = 100;
   document.getElementById("sizeSlide").value = 5;
 };
 
@@ -199,6 +202,9 @@ const addActionsForHtmlUI = () => {
   });
   document.getElementById("sizeSlide").addEventListener("mouseup", function () {
     g_selectedSize = this.value;
+  });
+  document.getElementById("opacitySlide").addEventListener("mouseup", function () {
+    g_selectedColor[3] = this.value / 100;
   });
 };
 
