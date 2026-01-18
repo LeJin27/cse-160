@@ -131,6 +131,7 @@ function click(ev) {
     point = new Triangle();
   } else {
     point = new Circle();
+    point.segments = document.getElementById("segmentInput").value;
   }
 
   point.position = [x, y];
@@ -140,6 +141,8 @@ function click(ev) {
   renderAllShapes();
 }
 const resetHtmlSliders = () => {
+  document.getElementById("segmentInput").value = 10;
+  document.getElementById("redSlide").value = 100;
   document.getElementById("redSlide").value = 100;
   document.getElementById("greenSlide").value = 100;
   document.getElementById("blueSlide").value = 100;
@@ -216,7 +219,7 @@ const importPreset = () => {
           break;
         case "circle":
           shape = new Circle();
-          shape.segments = shape.segments;
+          shape.segments = s.segments;
           break;
         case "drawing":
           shape = new Drawing();
