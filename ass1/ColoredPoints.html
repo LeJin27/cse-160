@@ -3,17 +3,34 @@
   <head>
     <meta charset="utf-8" />
     <title>Draw a point (1)</title>
+    <link rel="stylesheet" href="styles.css">
   </head>
 
   <body onload="main()">
     <canvas id="webgl" width="400" height="400">
     Please use a browser that supports "canvas"
     </canvas>
+    <div >
     <button type = "button" id = "green">Green</button>
     <button type = "button" id = "red">Red</button>
+</div>
+<div>
     <button type = "button" id = "clearButton">Clear</button>
     <button type = "button" id = "pointButton">Point</button>
     <button type = "button" id = "triangleButton">Triangle</button>
+</div>
+    <button type = "button" id = "circleButton">Circle</button>
+    <div>
+
+    <button type = "button" id = "importButton">Load</button>
+    <button type = "button" id = "exportButton">Save</button>
+    <input type = "text" id = "importInput" size = "50" >
+</div>
+<div >
+    <button type = "button" id = "myCoolPicture">Load Cool Design</button>
+
+</div>
+
 
     <div id = "numdot">xxx</div>
 
@@ -36,10 +53,13 @@
 
 
 
+
     <script src="./lib/webgl-utils.js"></script>
     <script src="./lib/webgl-debug.js"></script>
     <script src="./lib/cuon-utils.js"></script>
     <script src="Triangle.js"></script>
+    <script src="Circle.js"></script>
+    <script src="Drawing.js"></script>
     <script src="ColoredPoints.js"></script>
     <script src="Point.js"></script>
   </body>

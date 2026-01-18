@@ -1,6 +1,6 @@
 class Triangle {
   constructor( ) {
-    this.type = 'point';
+    this.type = 'triangle';
     this.position = [0.0, 0.0, 0.0];
     this.color = [1.0, 1.0, 1.0, 1.0];
     this.size = 5.0;
@@ -9,15 +9,13 @@ class Triangle {
   render () {
     var xy = this.position;
     var rgba = this.color;
-    var size = this.size;
 
     // does not require since we call it in draw trinagle
     //gl.vertexAttrib3f(a_Position, xy[0], xy[1], 0.0);
     // Pass the color of a point to u_FragColor variable
     gl.uniform4f(u_FragColor, rgba[0], rgba[1], rgba[2], rgba[3]);
-
-
-    gl.uniform1f(u_Size, size)
+    console.log(rgba[0])
+    //gl.uniform1f(u_Size, size)
 
     // draw
     const delta = this.size / 200.0;
@@ -30,15 +28,9 @@ class Triangle {
 function drawTriangle(vertices) {
   const n = 3; // The number of vertices
 
-  // Create a buffer object
-  //var vertexBuffer = gl.createBuffer();
-  //if (!vertexBuffer) {
-  //  console.log('Failed to create the buffer object');
-  //  return -1;
-  //}
-
   // Bind the buffer object to target
   gl.bindBuffer(gl.ARRAY_BUFFER, g_buffer);
+
   // Write date into the buffer object
   const float32Vertices = new Float32Array(vertices)
   gl.bufferData(gl.ARRAY_BUFFER, float32Vertices, gl.DYNAMIC_DRAW);
