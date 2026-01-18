@@ -1,76 +1,101 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <title>Draw a point (1)</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css" />
   </head>
 
   <body onload="main()">
-        <div class = "header">
+    <div class="header">
       <div>Jin Le</div>
       <div>jiqle@ucsc.edu</div>
       <div>Notes to Grader: N/A</div>
     </div>
     <div>
-
-    <canvas id="webgl" width="400" height="400">
-    Please use a browser that supports "canvas"
-    </canvas>
-       <img src="creeper.jpg" alt="Creeper Ahh man" id="image">
+      <canvas id="webgl" width="400" height="400">
+        Please use a browser that supports "canvas"
+      </canvas>
+      <img src="creeper.jpg" alt="Creeper Ahh man" id="image" />
     </div>
-    <div >
-    <button type = "button" id = "green">Green</button>
-    <button type = "button" id = "red">Red</button>
-</div>
-<div>
-    <button type = "button" id = "clearButton">Clear</button>
-    <button type = "button" id = "pointButton">Point</button>
-    <button type = "button" id = "triangleButton">Triangle</button>
-</div>
-    <button type = "button" id = "circleButton">Circle</button>
-          <input
-        type="number"
-        id = "segmentInput"
-        required
-        minlength="4"
-        maxlength="8"
-        size="10"
-        value= 10
+    <div>
+      <button type="button" id="green">Green</button>
+      <button type="button" id="red">Red</button>
+    </div>
+    <div>
+      <button type="button" id="clearButton">Clear</button>
+      <button type="button" id="pointButton">Point</button>
+      <button type="button" id="triangleButton">Triangle</button>
+    </div>
+    <button type="button" id="circleButton">Circle</button>
+    <div>
+      <button type="button" id="importButton">Load</button>
+      <button type="button" id="exportButton">Save</button>
+      <input type="text" id="importInput" size="50" />
+    </div>
+    <div>
+      <button type="button" id="myCoolPicture">Load Fire Drawing</button>
+    </div>
+
+    <div id="numdot">xxx</div>
+
+    <div>
+      Red
+      <input
+        type="range"
+        min="0"
+        max="100"
+        value="100"
+        class="slider"
+        id="redSlide"
       />
-    <div>
-
-    <button type = "button" id = "importButton">Load</button>
-    <button type = "button" id = "exportButton">Save</button>
-    <input type = "text" id = "importInput" size = "50" >
-</div>
-<div >
-    <button type = "button" id = "myCoolPicture">Load Fire Drawing</button>
-
-</div>
-
-
-    <div id = "numdot">xxx</div>
-
-    <div>
-      Red <input type =  "range" min = "0" max = "100" value = "100" class = "slider" id = "redSlide">
     </div>
     <div>
-      Blue <input type =  "range" min = "0" max = "100" value = "100" class = "slider" id = "blueSlide">
+      Blue
+      <input
+        type="range"
+        min="0"
+        max="100"
+        value="100"
+        class="slider"
+        id="blueSlide"
+      />
     </div>
     <div>
-      Green <input type =  "range" min = "0" max = "100" value = "100" class = "slider" id = "greenSlide">
+      Green
+      <input
+        type="range"
+        min="0"
+        max="100"
+        value="100"
+        class="slider"
+        id="greenSlide"
+      />
     </div>
 
     <div>
-      Size <input type =  "range" min = "5" max = "40" value = "5" class = "slider" id = "sizeSlide">
+      Size
+      <input
+        type="range"
+        min="5"
+        max="40"
+        value="5"
+        class="slider"
+        id="sizeSlide"
+      />
     </div>
 
-
-
-
-
-
+    <div>
+      (Circles) Segment Count
+      <input
+        type="range"
+        min="3"
+        max="10"
+        value="10"
+        class="slider"
+        id="segmentSlide"
+      />
+    </div>
 
     <script src="./lib/webgl-utils.js"></script>
     <script src="./lib/webgl-debug.js"></script>

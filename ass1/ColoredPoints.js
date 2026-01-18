@@ -45,6 +45,8 @@ const setupWebGL = () => {
     console.log("Failed to get the rendering context for WebGL");
     return;
   }
+  gl.enable(gl.BLEND);
+  gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 };
 
 const connectVariablesToGLSL = () => {
@@ -131,7 +133,7 @@ function click(ev) {
     point = new Triangle();
   } else {
     point = new Circle();
-    point.segments = document.getElementById("segmentInput").value;
+    point.segments = document.getElementById("segmentSlide").value;
   }
 
   point.position = [x, y];
@@ -141,7 +143,7 @@ function click(ev) {
   renderAllShapes();
 }
 const resetHtmlSliders = () => {
-  document.getElementById("segmentInput").value = 10;
+  document.getElementById("segmentSlide").value = 10;
   document.getElementById("redSlide").value = 100;
   document.getElementById("redSlide").value = 100;
   document.getElementById("greenSlide").value = 100;
