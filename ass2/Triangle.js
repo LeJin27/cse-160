@@ -50,11 +50,13 @@ function drawTriangle(vertices) {
 function drawTriangle3D(vertices) {
   const n = 3; // The number of vertices
 
+  const offsetVertices = vertices.map((value) => value - 0.5)
+
   // Bind the buffer object to target
   gl.bindBuffer(gl.ARRAY_BUFFER, g_buffer);
 
   // Write date into the buffer object
-  const float32Vertices = new Float32Array(vertices)
+  const float32Vertices = new Float32Array(offsetVertices)
   gl.bufferData(gl.ARRAY_BUFFER, float32Vertices, gl.DYNAMIC_DRAW);
 
   var a_Position = gl.getAttribLocation(gl.program, 'a_Position');
@@ -63,10 +65,11 @@ function drawTriangle3D(vertices) {
     return -1;
   }
   // Assign the buffer object to a_Position variable
- gl.vertexAttribPointer(a_Position, 3, gl.FLOAT, false, 0, 0);
+  gl.vertexAttribPointer(a_Position, 3, gl.FLOAT, false, 0, 0);
   // Enable the assignment to a_Position variable
   gl.enableVertexAttribArray(a_Position);
 
   gl.drawArrays(gl.TRIANGLES, 0, n);
 
 }
+

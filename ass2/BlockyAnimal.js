@@ -2,10 +2,10 @@
 // Vertex shader program
 var VSHADER_SOURCE =
   "attribute vec4 a_Position;\n" +
-  "uniform float u_Size;\n" +
+  "uniform mat4 u_ModelMatrix;\n" +
+  "uniform mat4 u_GlobalRotateMatrix;\n" +
   "void main() {\n" +
-  "gl_Position = a_Position;\n" +
-  "gl_PointSize = u_Size;\n" +
+  "gl_Position =  u_GlobalRotateMatrix * u_ModelMatrix * a_Position;\n" +
   "}\n";
 
 // Fragment shader program
@@ -20,7 +20,8 @@ let canvas;
 let gl;
 let a_Position;
 let u_FragColor;
-let u_Size;
+let u_ModelMatrix;
+let u_GlobalRotateMatrix;
 // globals for ui
 let g_selectedColor = [1.0, 1.0, 1.0, 1.0];
 let g_selectedSize = 5;
@@ -28,12 +29,9 @@ const POINT = 0;
 const TRIANGLE = 1;
 const CIRCLE = 2;
 let g_selectedType = POINT;
-let g_shapesList = []; // array holds shapes
 // vertext
 let g_buffer;
-let placeholder_preset = `[{"type":"point","position":[0.105,0.015],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.1,0.015],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.1,0.02],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.095,0.02],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.085,0.03],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.06,0.065],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.025,0.11],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.01,0.135],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.005,0.165],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.02,0.19],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.035,0.225],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.055,0.27],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.065,0.31],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.075,0.345],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.075,0.365],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.075,0.375],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.075,0.39],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.075,0.405],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.075,0.42],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.075,0.43],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.075,0.44],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.075,0.45],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.075,0.455],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.07,0.455],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.07,0.455],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.065,0.455],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.06,0.445],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.06,0.425],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.055,0.39],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.055,0.345],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.055,0.27],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.05,0.175],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.045,0.075],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.03,-0.005],"color":[1,1,1,1],"size":5},{"type":"point","position":[-0.01,-0.085],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.015,-0.175],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.04,-0.26],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.065,-0.335],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.08,-0.375],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.09,-0.41],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.105,-0.455],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.12,-0.495],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.13,-0.525],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.135,-0.545],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.14,-0.565],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.145,-0.58],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.145,-0.595],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.15,-0.6],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.15,-0.605],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.15,-0.61],"color":[1,1,1,1],"size":5},{"type":"point","position":[0.15,-0.61],"color":[1,1,1,1],"size":5}]`;
-
-const importInputTextBox = document.getElementById("importInput")
+let g_yellowAngle = 0;
 
 const setupWebGL = () => {
   // Retrieve <canvas> element
@@ -45,8 +43,10 @@ const setupWebGL = () => {
     console.log("Failed to get the rendering context for WebGL");
     return;
   }
-  
+
   // enable transparency
+  gl.enable(gl.DEPTH_TEST);
+  gl.depthFunc(gl.LESS);
   gl.enable(gl.BLEND);
   gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 };
@@ -72,39 +72,102 @@ const connectVariablesToGLSL = () => {
     return;
   }
 
-  u_Size = gl.getUniformLocation(gl.program, "u_Size");
-  if (!u_Size) {
-    console.log("Failed to get the storage location of a_Position");
-    return;
-  }
   g_buffer = gl.createBuffer();
   if (!g_buffer) {
     console.log("Failed to create the buffer object");
     return -1;
   }
+
+  u_GlobalRotateMatrix = gl.getUniformLocation(
+    gl.program,
+    "u_GlobalRotateMatrix",
+  );
+  if (!u_GlobalRotateMatrix) {
+    console.log("Failed to get the storage location of u_GlobalRotateMatrix");
+    return;
+  }
+
+  u_ModelMatrix = gl.getUniformLocation(gl.program, "u_ModelMatrix");
+  if (!u_ModelMatrix) {
+    console.log("Failed to get the storage location of u_ModelMatrix");
+    return;
+  }
+
+  let identityM = new Matrix4();
+  gl.uniformMatrix4fv(u_ModelMatrix, false, identityM.elements);
 };
 
-const renderAllShapes = () => {
-  //
-  let startTime = performance.now();
-  // Clear <canvas>
-  gl.clear(gl.COLOR_BUFFER_BIT);
+
+const animationList = {
+  ANIMATION_RIGHT_FRONT_LEG: 0,
+  ANIMATION_LEFT_FRONT_LEG: 0,
+  ANIMATION_RIGHT_BACK_LEG: 0,
+  ANIMATION_LEFT_BACK_LEG_JOINT: 0,
+  ANIMATION_RIGHT_BACK_LEG_JOINT: 0,
+  ANIMATION_LEFT_BACK_LEG: 0,
+  ANIMATION_NOSE_TWITCH: 0,
+  ANIMATION_RIGHT_EAR: 0,
+  ANIMATION_LEFT_EAR: 0,
+  ANIMATION_FACE: 0,
+  ANIMATION_FUR: 0,
+  ANIMATION_TAIL_ONE: 0,
+  ANIMATION_TAIL_TWO: 0,
+  ANIMATION_TAIL_THREE: 0,
+  ANIMATION_HEAD_SIZE: 0,
+  ANIMATION_BODY_SIZE: 0,
+};
 
 
 
-  gl.uniform4f(u_FragColor, 1, 1, 1, 1);
-  drawTriangle3D([-1.0, 0.0, 0.0, -0.5, -1.0, 0.0, 0.0, 0.0, 0.0])
+const CONTROLLER_SETTING_ON = 1
+const CONTROLLER_SETTING_OFF = 2
+const CONTROLLER_CUSTOM_ANIM = 3
+let g_controller_play = CONTROLLER_SETTING_OFF
 
-  const body = new Cube();
-  body.color = [1.0, 0.0, 0.0, 1.0];
-  body.render();
+const updateAnimationAngles = () => {
+  const speed = Date.now() / 90;
+  if (g_controller_play === CONTROLLER_SETTING_ON) {
+    animationList.ANIMATION_RIGHT_FRONT_LEG = 30 * Math.sin(speed);
+    animationList.ANIMATION_LEFT_FRONT_LEG = 30 * Math.sin(speed + 30);
 
-  let duration = performance.now() - startTime;
-  const len = "placeholder"
-  sendTextToHtml(
-    `numdo: ${len} ms: ${Math.floor(duration)} fps: ${Math.floor(10000 / duration)}`,
-    "numdot",
-  );
+    animationList.ANIMATION_RIGHT_BACK_LEG = 30 * Math.sin(speed);
+    animationList.ANIMATION_LEFT_BACK_LEG = 30 * Math.sin(speed + 30);
+
+    animationList.ANIMATION_RIGHT_BACK_LEG_JOINT = 40 * Math.sin(speed);
+    animationList.ANIMATION_LEFT_BACK_LEG_JOINT = 40 * Math.sin(speed + 30);
+
+    animationList.ANIMATION_NOSE_TWITCH = 10 * Math.sin(speed);
+
+    animationList.ANIMATION_RIGHT_EAR = 30 * Math.sin(speed);
+    animationList.ANIMATION_LEFT_EAR = 30 * Math.sin(speed + 30);
+    animationList.ANIMATION_FACE = 30 * Math.sin(speed + 30);
+
+    animationList.ANIMATION_FUR = 0.05 * ((Math.sin(speed) + 1) / 2);
+
+    animationList.ANIMATION_TAIL_ONE = 30 * Math.sin(speed + 30);
+    animationList.ANIMATION_TAIL_TWO = 30 * Math.sin(speed + 30);
+    animationList.ANIMATION_TAIL_THREE = 30 * Math.sin(speed + 30);
+  } else if (g_controller_play === CONTROLLER_CUSTOM_ANIM) {
+    animationList.ANIMATION_NOSE_TWITCH = 10 * Math.sin(speed);
+    animationList.ANIMATION_HEAD_SIZE =((Math.sin(speed) + 1) / 2);
+    animationList.ANIMATION_BODY_SIZE =((Math.sin(speed) + 1) / 2);
+  }
+};
+
+let g_globalAngleX = 10;
+let g_globalAngleY = -10;
+let g_globalZoom = 1;
+
+let g_startTime = performance.now() / 1000.0;
+let g_seconds = performance.now() / 1000.0 - g_startTime;
+
+const tick = () => {
+  g_seconds = performance.now() / 1000.0 - g_startTime;
+  //console.log(g_seconds);
+
+  updateAnimationAngles();
+  renderScene();
+  requestAnimationFrame(tick);
 };
 
 const sendTextToHtml = (text, htmlID) => {
@@ -126,135 +189,96 @@ const convertCoordinatesEventToGL = (ev) => {
 
   return [x, y];
 };
-
 function click(ev) {
   [x, y] = convertCoordinatesEventToGL(ev);
-
-  // Store the coordinates to g_points array
-  let point;
-
-  if (g_selectedType == POINT) {
-    point = new Point();
-  } else if (g_selectedType == TRIANGLE) {
-    point = new Triangle();
-  } else {
-    point = new Circle();
-    point.segments = document.getElementById("segmentSlide").value;
-  }
-
-  point.position = [x, y];
-  point.color = g_selectedColor.slice();
-  point.size = g_selectedSize;
-  g_shapesList.push(point);
-  renderAllShapes();
+  g_globalAngleX = Math.sin(x) * -180;
+  g_globalAngleY = Math.sin(y) * 180;
 }
+
 const resetHtmlSliders = () => {
-  document.getElementById("segmentSlide").value = 10;
-  document.getElementById("redSlide").value = 100;
-  document.getElementById("redSlide").value = 100;
-  document.getElementById("greenSlide").value = 100;
-  document.getElementById("blueSlide").value = 100;
-  document.getElementById("opacitySlide").value = 100;
-  document.getElementById("sizeSlide").value = 5;
+  document.getElementById("angleSlideX").value = g_globalAngleX;
+  document.getElementById("angleSlideY").value = g_globalAngleY;
+  document.getElementById("zoomSlide").value = g_globalZoom;
 };
+
+const updateAnimationSlider = (elementId) => {
+  document.getElementById(elementId).addEventListener("input", function () { 
+    animationList[elementId] = this.value; 
+    console.log(elementId)
+    if (elementId === "ANIMATION_HEAD_SIZE" || elementId === "ANIMATION_BODY_SIZE") {
+      animationList[elementId] = this.value / 100;
+      console.log(this.value / 100);
+    }
+
+    renderScene(); g_controller_play = false});
+}
 
 const addActionsForHtmlUI = () => {
-  importInputTextBox.value = "Invalid preset format!";
-  document.getElementById("green").onclick = function () {
-    g_selectedColor = [0.0, 1.0, 0.0, 1.0];
-  };
-  document.getElementById("red").onclick = function () {
-    g_selectedColor = [1.0, 0.0, 0.0, 1.0];
-  };
-
-  document.getElementById("pointButton").onclick = function () {
-    g_selectedType = POINT;
-  };
-  document.getElementById("triangleButton").onclick = function () {
-    g_selectedType = TRIANGLE;
-  };
-  document.getElementById("circleButton").onclick = function () {
-    g_selectedType = CIRCLE;
-  };
-  document.getElementById("clearButton").onclick = function () {
-    g_shapesList = [];
-    renderAllShapes();
-  };
-
-  document.getElementById("exportButton").onclick = function () {
-    exportPreset();
-  };
-  document.getElementById("importButton").onclick = function () {
-    importPreset();
-  };
-  document.getElementById("myCoolPicture").onclick = function () {
-    const drawingObj = new Drawing();
-    g_shapesList.push(drawingObj);
-    renderAllShapes();
-  };
-
-  document.getElementById("redSlide").addEventListener("mouseup", function () {
-    g_selectedColor[0] = this.value / 100;
-  });
   document
-    .getElementById("greenSlide")
-    .addEventListener("mouseup", function () {
-      g_selectedColor[1] = this.value / 100;
-    });
-  document.getElementById("blueSlide").addEventListener("mouseup", function () {
-    g_selectedColor[2] = this.value / 100;
-  });
-  document.getElementById("sizeSlide").addEventListener("mouseup", function () {
-    g_selectedSize = this.value;
-  });
-  document.getElementById("opacitySlide").addEventListener("mouseup", function () {
-    g_selectedColor[3] = this.value / 100;
-  });
-};
+    .getElementById("angleSlideX")
+    .addEventListener("input", function () {
+      g_globalAngleX = this.value;
 
-const exportPreset = () => {
-  const exportedPreset = JSON.stringify(g_shapesList);
-  //console.log(current_preset)
-  importInputTextBox.value = exportedPreset;
-};
-const importPreset = () => {
-  const currentPreset = importInputTextBox.value;
-  try {
-    const parsedJson = JSON.parse(currentPreset);
-    g_shapesList = parsedJson.map((s) => {
-      switch (s.type) {
-        case "point":
-          shape = new Point();
-          break;
-        case "triangle":
-          shape = new Triangle();
-          break;
-        case "circle":
-          shape = new Circle();
-          shape.segments = s.segments;
-          break;
-        case "drawing":
-          shape = new Drawing();
-          break;
-        default:
-          shape = new Point();
-      }
-      shape.position = s.position;
-      shape.color = s.color;
-      shape.size = s.size;
-      return shape;
+      document.getElementById("angleSlideY");
+      renderScene();
     });
-    renderAllShapes();
-  } catch {
-    g_shapesList = [];
-    importInputTextBox.value = "Invalid preset format!";
-    renderAllShapes();
-    console.log("invalid json");
-  }
+  document.getElementById("angleSlideY")
+    .addEventListener("input", function () {
+      g_globalAngleY = this.value;
+      renderScene();
+  });
+
+  document
+    .getElementById("zoomSlide")
+    .addEventListener("input", function () {
+      g_globalZoom = 1 + (this.value / 100);
+      renderScene();
+    });
+
+
+  
+    Object.keys(animationList).map((currentKey) => {
+      updateAnimationSlider(currentKey)
+    })
+
+  document.getElementById("toggleAnimation").onclick = (e) => {
+    if (g_controller_play === CONTROLLER_SETTING_ON) {
+      g_controller_play = CONTROLLER_SETTING_OFF;
+    } else {
+      resetAnimationSliders();
+      g_controller_play = CONTROLLER_SETTING_ON
+
+    }
+
+  };
+  document.getElementById("resetSliders").onclick = (e) => {
+    resetAnimationSliders();
+  };
+
+
+  document.addEventListener("click", (e) => {shiftKeyIsPressed(e)});
+
+
 };
+const resetAnimationSliders = () => {
+  g_controller_play = CONTROLLER_SETTING_OFF
+  Object.keys(animationList).map((key) => {
+    animationList[key] = 0;
+  })
+}
+
+
+const shiftKeyIsPressed = (e) =>{
+  const isPressed = e.shiftKey
+  if (isPressed) {
+    resetAnimationSliders();
+    g_controller_play = CONTROLLER_CUSTOM_ANIM;
+    console.log("Htesthioaeoth")
+    
+  }
+}
 
 function main() {
-
   // so if you reload the page everyhting is clean
   resetHtmlSliders();
   //setup canvas and gl variables
@@ -265,19 +289,23 @@ function main() {
 
   addActionsForHtmlUI();
 
-  // Register function (event handler) to be called on a mouse press
   canvas.onmousedown = (ev) => {
-    click(ev);
+    if (!ev.shiftKey) {
+      click(ev);
+    }
   };
   canvas.onmousemove = (ev) => {
-    if (ev.buttons == 1) {
-      click(ev);
+    if (!ev.shiftKey) {
+      if (ev.buttons == 1) {
+        click(ev);
+      }
     }
   };
 
   // Specify the color for clearing <canvas>
   gl.clearColor(0.0, 0.0, 0.0, 1.0);
-  renderAllShapes();
+
+  requestAnimationFrame(tick);
 
   // Clear <canvas>
   //gl.clear(gl.COLOR_BUFFER_BIT);

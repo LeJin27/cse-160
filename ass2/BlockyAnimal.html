@@ -10,102 +10,71 @@
     <div class="header">
       <div>Jin Le</div>
       <div>jiqle@ucsc.edu</div>
-      <div>Notes to Grader: N/A</div>
+      <div>
+        Notes to Grader: Used ChatGPT for help with rendering the cone hat on the head
     </div>
-    <div>
-      <canvas id="webgl" width="400" height="400">
-        Please use a browser that supports "canvas"
-      </canvas>
-      <img src="creeper.jpg" alt="Creeper Ahh man" id="image" />
-    </div>
-    <div>
-      <button type="button" id="green">Green</button>
-      <button type="button" id="red">Red</button>
-    </div>
-    <div>
-      <button type="button" id="clearButton">Clear</button>
-      <button type="button" id="pointButton">Point</button>
-      <button type="button" id="triangleButton">Triangle</button>
-    </div>
-    <button type="button" id="circleButton">Circle</button>
-    <div>
-      <button type="button" id="importButton">Load</button>
-      <button type="button" id="exportButton">Save</button>
-      <input type="text" id="importInput" size="50" />
-    </div>
-    <div>
-      <button type="button" id="myCoolPicture">Load Fire Drawing</button>
+      <div>
+        Non cube primitive: Cone
+        </div>
+      <div>
+        Third Level Joints: The tail and legs.
+        </div>
+    <div class="flex gap20">
+      <div><canvas id="webgl" width="600" height="600">Please use a browser that supports "canvas"</canvas></div>
+<div class = "slidergroup">
+  <h2>Pose Sliders</h1>
+<div class = "slider"><input type="range" min="-30" max="30" value="0" id="ANIMATION_RIGHT_FRONT_LEG" /> ANIMATION_RIGHT_FRONT_LEG</div>
+<div class = "slider"><input type="range" min="-30" max="30" value="0" id="ANIMATION_LEFT_FRONT_LEG" /> ANIMATION_LEFT_FRONT_LEG</div>
+<div class = "slider"><input type="range" min="-30" max="30" value="0" id="ANIMATION_RIGHT_BACK_LEG" /> ANIMATION_RIGHT_BACK_LEG</div>
+<div class = "slider"><input type="range" min="-30" max="30" value="0" id="ANIMATION_LEFT_BACK_LEG_JOINT" /> ANIMATION_LEFT_BACK_LEG_JOINT</div>
+<div class = "slider"><input type="range" min="-30" max="30" value="0" id="ANIMATION_RIGHT_BACK_LEG_JOINT" /> ANIMATION_RIGHT_BACK_LEG_JOINT</div>
+<div class = "slider"><input type="range" min="-30" max="30" value="0" id="ANIMATION_LEFT_BACK_LEG" /> ANIMATION_LEFT_BACK_LEG</div>
+<div class = "slider"><input type="range" min="-30" max="30" value="0" id="ANIMATION_NOSE_TWITCH" /> ANIMATION_NOSE_TWITCH</div>
+<div class = "slider"><input type="range" min="-30" max="30" value="0" id="ANIMATION_RIGHT_EAR" /> ANIMATION_RIGHT_EAR</div>
+<div class = "slider"><input type="range" min="-30" max="30" value="0" id="ANIMATION_LEFT_EAR" /> ANIMATION_LEFT_EAR</div>
+<div class = "slider"><input type="range" min="-30" max="30" value="0" id="ANIMATION_FACE" /> ANIMATION_FACE</div>
+<div class = "slider"><input type="range" min="-30" max="30" value="0" id="ANIMATION_FUR" /> ANIMATION_FUR</div>
+<div class = "slider"><input type="range" min="-30" max="30" value="0" id="ANIMATION_TAIL_ONE" /> ANIMATION_TAIL_ONE</div>
+<div class = "slider"><input type="range" min="-30" max="30" value="0" id="ANIMATION_TAIL_TWO" /> ANIMATION_TAIL_TWO</div>
+<div class = "slider"><input type="range" min="-30" max="30" value="0" id="ANIMATION_TAIL_THREE" /> ANIMATION_TAIL_THREE</div>
+<div class = "slider"><input type="range" min="-30" max="200" value="0" id="ANIMATION_HEAD_SIZE" />ANIMATION_HEAD_SIZE</div>
+<div class = "slider"><input type="range" min="-30" max="200" value="0" id="ANIMATION_BODY_SIZE" />ANIMATION_BODY_SIZE</div>
+
+      </div>
+
     </div>
 
     <div id="numdot">xxx</div>
 
-    <div>
-      Red
-      <input
-        type="range"
-        min="0"
-        max="100"
-        value="100"
-        class="slider"
-        id="redSlide"
-      />
-    </div>
-    <div>
-      Blue
-      <input
-        type="range"
-        min="0"
-        max="100"
-        value="100"
-        class="slider"
-        id="blueSlide"
-      />
-    </div>
-    <div>
-      Green
-      <input
-        type="range"
-        min="0"
-        max="100"
-        value="100"
-        class="slider"
-        id="greenSlide"
-      />
-    </div>
-    <div>
-      Opacity
-      <input
-        type="range"
-        min="0"
-        max="100"
-        value="100"
-        class="slider"
-        id="opacitySlide"
-      />
-    </div>
 
-    <div>
-      Size
+    <div class ="slider">
       <input
         type="range"
-        min="5"
-        max="40"
-        value="5"
-        class="slider"
-        id="sizeSlide"
+        min="-90"
+        max="360"
+        value="0"
+        id="angleSlideX"
       />
+      Camera Angle X
     </div>
-
-    <div>
-      (Circles) Segment Count
+              <div class ="slider">
       <input
         type="range"
-        min="3"
-        max="10"
-        value="10"
-        class="slider"
-        id="segmentSlide"
+        min="-90"
+        max="360"
+        value="0"
+        id="angleSlideY"
       />
+      Camera Angle Y
+    </div>
+                  <div class ="slider"><input type="range" min="-30" max="30" value="1" id="zoomSlide"/>Zoom Slide</div>
+
+
+
+
+    <div class="flex gap20">
+    <button id ="toggleAnimation">Toggle Animation</button>
+    <button id ="resetSliders">Reset Sliders</button>
     </div>
 
     <script src="./lib/webgl-utils.js"></script>
@@ -113,10 +82,10 @@
     <script src="./lib/cuon-utils.js"></script>
     <script src="./lib/cuon-matrix.js"></script>
     <script src="Triangle.js"></script>
-    <script src="Circle.js"></script>
-    <script src="Drawing.js"></script>
     <script src="BlockyAnimal.js"></script>
-    <script src="Point.js"></script>
+    <script src="RenderScene.js"></script>
+    <script src="RenderHelper.js"></script>
     <script src="Cube.js"></script>
+    <script src="Cone.js"></script>
   </body>
 </html>
