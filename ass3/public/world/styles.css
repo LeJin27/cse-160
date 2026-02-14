@@ -1,0 +1,58 @@
+.flex {
+  display: flex;
+  flex-direction: row;
+}
+#green {
+  background-color: green;
+}
+#red {
+  background-color: red;
+}
+#image {
+    width: 20%; 
+}
+
+  body {
+    font-family: 'Manrope', sans-serif;
+    color: white;
+  }
+
+.gap20 {
+  gap: 20px;
+
+}
+
+
+.slidergroup {
+  background-color: #6DAEDB;
+  padding: 20px;
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
+
+  border-radius: 25px;
+    font-weight: bold;
+
+
+}
+.slider {
+  display: flex;
+  align-items: center;
+}
+
+button {
+    background-color: #6DAEDB;
+    
+    border-radius: 25px;
+    font-weight: bold;
+      font-family: 'Manrope', sans-serif;
+    color: white;
+    
+
+      border: none;
+  padding: 15px;
+}
+
+button:active {
+  transform: translateY(4px);
+}

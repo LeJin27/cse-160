@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Blocky Animal</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body onload="main()">
+    <div class="header">
+      <div>Jin Le</div>
+      <div>jiqle@ucsc.edu</div>
+      <div>
+        Notes to Grader: Used ChatGPT for help with rendering the cone hat on the head
+    </div>
+      <div>
+        Non cube primitive: Cone Hat
+        </div>
+      <div>
+        Third Level Joints: The tail and legs.
+        </div>
+    <div class="flex gap20">
+      <div><canvas id="webgl" width="600" height="600">Please use a browser that supports "canvas"</canvas></div>
+<div class = "slidergroup">
+  <h2>Pose Sliders</h1>
+<div class = "slider"><input type="range" min="-30" max="30" value="0" id="ANIMATION_RIGHT_FRONT_LEG" /> ANIMATION_RIGHT_FRONT_LEG</div>
+<div class = "slider"><input type="range" min="-30" max="30" value="0" id="ANIMATION_LEFT_FRONT_LEG" /> ANIMATION_LEFT_FRONT_LEG</div>
+<div class = "slider"><input type="range" min="-30" max="30" value="0" id="ANIMATION_RIGHT_BACK_LEG" /> ANIMATION_RIGHT_BACK_LEG</div>
+<div class = "slider"><input type="range" min="-30" max="30" value="0" id="ANIMATION_LEFT_BACK_LEG_JOINT" /> ANIMATION_LEFT_BACK_LEG_JOINT</div>
+<div class = "slider"><input type="range" min="-30" max="30" value="0" id="ANIMATION_RIGHT_BACK_LEG_JOINT" /> ANIMATION_RIGHT_BACK_LEG_JOINT</div>
+<div class = "slider"><input type="range" min="-30" max="30" value="0" id="ANIMATION_LEFT_BACK_LEG" /> ANIMATION_LEFT_BACK_LEG</div>
+<div class = "slider"><input type="range" min="-30" max="30" value="0" id="ANIMATION_NOSE_TWITCH" /> ANIMATION_NOSE_TWITCH</div>
+<div class = "slider"><input type="range" min="-30" max="30" value="0" id="ANIMATION_RIGHT_EAR" /> ANIMATION_RIGHT_EAR</div>
+<div class = "slider"><input type="range" min="-30" max="30" value="0" id="ANIMATION_LEFT_EAR" /> ANIMATION_LEFT_EAR</div>
+<div class = "slider"><input type="range" min="-30" max="30" value="0" id="ANIMATION_FACE" /> ANIMATION_FACE</div>
+<div class = "slider"><input type="range" min="-30" max="30" value="0" id="ANIMATION_FUR" /> ANIMATION_FUR</div>
+<div class = "slider"><input type="range" min="-30" max="30" value="0" id="ANIMATION_TAIL_ONE" /> ANIMATION_TAIL_ONE</div>
+<div class = "slider"><input type="range" min="-30" max="30" value="0" id="ANIMATION_TAIL_TWO" /> ANIMATION_TAIL_TWO</div>
+<div class = "slider"><input type="range" min="-30" max="30" value="0" id="ANIMATION_TAIL_THREE" /> ANIMATION_TAIL_THREE</div>
+<div class = "slider"><input type="range" min="-30" max="200" value="0" id="ANIMATION_HEAD_SIZE" />ANIMATION_HEAD_SIZE</div>
+<div class = "slider"><input type="range" min="-30" max="200" value="0" id="ANIMATION_BODY_SIZE" />ANIMATION_BODY_SIZE</div>
+
+      </div>
+
+    </div>
+
+    <div id="numdot">xxx</div>
+
+
+    <div class ="slider">
+      <input
+        type="range"
+        min="-90"
+        max="360"
+        value="0"
+        id="angleSlideX"
+      />
+      Camera Angle X
+    </div>
+              <div class ="slider">
+      <input
+        type="range"
+        min="-90"
+        max="360"
+        value="0"
+        id="angleSlideY"
+      />
+      Camera Angle Y
+    </div>
+                  <div class ="slider"><input type="range" min="-30" max="30" value="1" id="zoomSlide"/>Zoom Slide</div>
+
+
+
+
+    <div class="flex gap20">
+    <button id ="toggleAnimation">Toggle Animation</button>
+    <button id ="resetSliders">Reset Sliders</button>
+    </div>
+
+    <script src="./lib/webgl-utils.js"></script>
+    <script src="./lib/webgl-debug.js"></script>
+    <script src="./lib/cuon-utils.js"></script>
+    <script src="./lib/cuon-matrix.js"></script>
+    <script src="Triangle.js"></script>
+    <script src="BlockyAnimal.js"></script>
+    <script src="RenderScene.js"></script>
+    <script src="RenderHelper.js"></script>
+    <script src="Cube.js"></script>
+    <script src="Cone.js"></script>
+  </body>
+</html>
