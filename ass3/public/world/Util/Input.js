@@ -3,21 +3,38 @@ const addActionsForHtmlUI = () => {
     "wheel",
     (ev) => {zoomScroll(ev)}, { passive: false },
   );
-  canvas.onmousedown = (ev) => {
-    if (!ev.shiftKey) {
-      mouseClick(ev);
-    }
-  };
-  canvas.onmousemove = (ev) => {
-    if (!ev.shiftKey) {
-      if (ev.buttons == 1) {
-        mouseClick(ev);
-      }
-    }
-  };
+  //canvas.onmousedown = (ev) => {
+  //  if (!ev.shiftKey) {
+  //    mouseClick(ev);
+  //  }
+  //};
+  //canvas.onmousemove = (ev) => {
+  //  if (!ev.shiftKey) {
+  //    if (ev.buttons == 1) {
+  //      mouseClick(ev);
+  //    }
+  //  }
+  //};
+canvas.addEventListener("mousedown", (ev) => {
+  if (ev.button !== 0) return;
+  canvas.requestPointerLock();
+});
+
+
+addEventListener("mousemove", (ev) => { 
+  const dx = ev.movementX;
+
+  const dy = ev.movementY;
+  const sensitivity = 0.2;
+  g_camera.rotate(-dx * sensitivity);
+  g_camera.pitch(-dy * sensitivity);
+
+
+})
 
 document.addEventListener("keydown", (ev) => {
   const keyLetter = ev.key.toLowerCase();
+  console.log(keyLetter);
   g_keyPressed[keyLetter] = true
 });
 

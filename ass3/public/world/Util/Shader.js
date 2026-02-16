@@ -21,8 +21,7 @@ var FSHADER_SOURCE =
   precision mediump float;
   varying vec2 v_UV;
   uniform vec4 u_FragColor;
-  uniform sampler2D u_Texture0;
-  uniform sampler2D u_Texture1;
+  uniform sampler2D u_Sampler;
   uniform int u_WhichTexture;
 
   void main() {
@@ -31,9 +30,7 @@ var FSHADER_SOURCE =
     } else if (u_WhichTexture == -1) { // uv debug color
       gl_FragColor = vec4(v_UV, 1.0, 1.0);
     } else if (u_WhichTexture == 0) {
-      gl_FragColor = texture2D(u_Texture0, v_UV); //use texture 0
-    } else if (u_WhichTexture == 1) {
-      gl_FragColor = texture2D(u_Texture1, v_UV); //use texture 0
+      gl_FragColor = texture2D(u_Sampler, v_UV);  // customTexture
     } else {
       gl_FragColor = vec4(1, .2, .2, 1); // red error color
     }

@@ -11,7 +11,6 @@ class Triangle {
     var rgba = this.color;
 
     gl.uniform4f(u_FragColor, rgba[0], rgba[1], rgba[2], rgba[3]);
-    console.log(rgba[0])
     const delta = this.size / 200.0;
     drawTriangle([xy[0], xy[1], xy[0] + delta, xy[1], xy[0], xy[1] + delta]);
   }
@@ -63,11 +62,11 @@ function drawTriangle3D(vertices) {
 function drawTriangle3DUV(vertices, uv) {
   const verticeCount = 3; 
 
-  //const offsetVertices = vertices.map((value) => value - 0.5)
+  const offsetVertices = vertices.map((value) => value - 0.5)
 
   const helperTriangleCreateSurface = () => {
     gl.bindBuffer(gl.ARRAY_BUFFER, g_buffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.DYNAMIC_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(offsetVertices), gl.DYNAMIC_DRAW);
 
     gl.vertexAttribPointer(a_Position, 3, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(a_Position);

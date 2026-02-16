@@ -1,10 +1,6 @@
 
 
 
-const updateAnimationAngles = () => {
-  const speed = Date.now() / 90;
-};
-
 const setupWebGL = () => {
   // Retrieve <canvas> element
   canvas = document.getElementById("webgl");
@@ -44,6 +40,7 @@ function main() {
 
   // Specify the color for clearing <canvas>
   gl.clearColor(0.0, 0.0, 0.0, 1.0);
+
 
   requestAnimationFrame(updateFrame);
 
