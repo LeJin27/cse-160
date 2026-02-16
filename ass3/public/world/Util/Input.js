@@ -34,7 +34,6 @@ addEventListener("mousemove", (ev) => {
 
 document.addEventListener("keydown", (ev) => {
   const keyLetter = ev.key.toLowerCase();
-  console.log(keyLetter);
   g_keyPressed[keyLetter] = true
 });
 

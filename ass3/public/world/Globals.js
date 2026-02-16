@@ -41,6 +41,9 @@ let u_ProjectionMatrix;
 let u_ViewMatrix;
 
 let g_camera = new Camera()
+g_camera.ascend(1)
+//g_camera.eye.add(new Vector([0, 5, 0]));
+//g_camera.at.add(new Vector([0, 5, 0]));
 
 let g_lastX = 0;
 let g_lastY = 0;

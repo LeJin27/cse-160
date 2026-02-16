@@ -7,12 +7,17 @@ class Camera {
     this.at = new Vector([0, 0, -100]);
     // used for corss product to get left and right
     this.up = new Vector([0, 1, 0]);
+
+    this.currentX = 0;
+    this.currentY = 0;
   }
 
   ascend = (speed) => {
     let f = new Vector([0, 1, 0]);
     f = f.div(f.magnitude());
     f = f.mul(speed);
+    this.currentY += speed;
+    console.log(this.currentY);
     this.at = this.at.add(f);
     this.eye = this.eye.add(f);
   };
@@ -20,6 +25,8 @@ class Camera {
     let f = new Vector([0, 1, 0]);
     f = f.div(f.magnitude());
     f = f.mul(speed);
+    this.currentY -= speed;
+    console.log(this.currentY);
     this.at = this.at.sub(f);
     this.eye = this.eye.sub(f);
   };
