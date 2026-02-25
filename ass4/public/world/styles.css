@@ -14,7 +14,8 @@
 
   body {
     font-family: 'Manrope', sans-serif;
-    color: black;
+    color: white;
+    background-color: black;
   }
 
 .gap20 {

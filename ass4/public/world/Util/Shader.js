@@ -1,0 +1,46 @@
+// ColoredPoint.js (c) 2012 matsuda
+// Vertex shader program
+var VSHADER_SOURCE =
+  `
+  precision mediump float;
+  attribute vec4 a_Position;
+  attribute vec2 a_UV;
+  attribute vec3 a_Normal;
+
+  varying vec2 v_UV;
+  varying vec3 v_Normal;
+  uniform mat4 u_ModelMatrix;
+  uniform mat4 u_GlobalRotateMatrix;
+  uniform mat4 u_ViewMatrix;
+  uniform mat4 u_ProjectionMatrix;
+  void main() {
+    gl_Position =  u_ProjectionMatrix * u_ViewMatrix * u_GlobalRotateMatrix * u_ModelMatrix * a_Position;
+    v_UV = a_UV;
+    v_Normal = a_Normal;
+  }
+`
+
+// Fragment shader program
+var FSHADER_SOURCE =
+`
+  precision mediump float;
+  varying vec2 v_UV;
+  varying vec3 v_Normal;
+  uniform vec4 u_FragColor;
+  uniform sampler2D u_Sampler;
+  uniform int u_WhichTexture;
+
+  void main() {
+    if (u_WhichTexture == -3) {
+      gl_FragColor = vec4((v_Normal + 1.0) / 2.0, 1.0);
+    } else if (u_WhichTexture == -2) { // use color
+      gl_FragColor = u_FragColor;
+    } else if (u_WhichTexture == -1) { // uv debug color
+      gl_FragColor = vec4(v_UV, 1.0, 1.0);
+    } else if (u_WhichTexture == 0) {
+      gl_FragColor = texture2D(u_Sampler, v_UV);  // customTexture
+    } else {
+      gl_FragColor = vec4(1, .2, .2, 1); // red error color
+    }
+  }
+`

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Blocky World</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body onload="main()">
+    <div class="header">
+      <div>Jin Le</div>
+      <div>jiqle@ucsc.edu</div>
+      <div>
+        Notes to Grader: 
+      </div>
+    </div>
+    <div class="flex gap20">
+      <div><canvas id="webgl" width="400" height="400">Please use a browser that supports "canvas"</canvas></div>
+      <div>Move: WASD</div>
+      <div>Shift: Descend</div>
+      <div>Space: Ascend</div>
+      <div>Scroll Wheel: Zoom</div>
+    <button id ="normalOn">Normal ON</button>
+    <button id ="normalOff">Normal Off</button>
+    </div>
+
+    <div id="numdot">xxx</div>
+
+    <script src="../lib/webgl-utils.js"></script>
+    <script src="../lib/webgl-debug.js"></script>
+    <script src="../lib/cuon-utils.js"></script>
+    <script src="../lib/cuon-matrix.js"></script>
+    <script src="Util/Shader.js"></script>
+    <script src="World.js"></script>
+    <script src="Texture.js"></script>
+    <script src="GLSL/Update.js"></script>
+    <script src="Object/Cube.js"></script>
+    <script src="Object/Fox.js"></script>
+    <script src="Object/Texture.js"></script>
+    <script src="Object/Triangle.js"></script>
+    <script src="Object/Terrain.js"></script>
+    <script src="Object/Model.js"></script>
+    <script src="Util/Input.js"></script>
+    <script src="Util/Vector.js"></script>
+    <script src="Util/Camera.js"></script>
+    <script src="Globals.js"></script>
+  </body>
+</html>
