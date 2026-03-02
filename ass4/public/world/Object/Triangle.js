@@ -62,11 +62,11 @@ function drawTriangle3D(vertices) {
 function drawTriangle3DUV(vertices, uv) {
   const verticeCount = 3; 
 
-  const offsetVertices = vertices.map((value) => value - 0.5)
+  //const offsetVertices = vertices.map((value) => value - 0.5)
 
   const helperTriangleCreateSurface = () => {
     gl.bindBuffer(gl.ARRAY_BUFFER, g_buffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(offsetVertices), gl.DYNAMIC_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.DYNAMIC_DRAW);
 
     gl.vertexAttribPointer(a_Position, 3, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(a_Position);
@@ -86,14 +86,14 @@ function drawTriangle3DUV(vertices, uv) {
   gl.drawArrays(gl.TRIANGLES, 0, verticeCount);
 }
 
-function drawTriangle3DUVNormal(vertices, uv, normal) {
+function drawTriangle3DUVNormal(vertices, uv, normals) {
   const verticeCount = 3; 
 
-  const offsetVertices = vertices.map((value) => value - 0.5)
+  //const offsetVertices = vertices.map((value) => value - 0.5)
 
   const helperTriangleCreateSurface = () => {
     gl.bindBuffer(gl.ARRAY_BUFFER, g_buffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(offsetVertices), gl.DYNAMIC_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.DYNAMIC_DRAW);
 
     gl.vertexAttribPointer(a_Position, 3, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(a_Position);
@@ -107,8 +107,17 @@ function drawTriangle3DUVNormal(vertices, uv, normal) {
     gl.enableVertexAttribArray(a_UV);
   }
 
+  const helperTriangleCreateNormals = () => {
+    gl.bindBuffer(gl.ARRAY_BUFFER, g_normalBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(normals), gl.DYNAMIC_DRAW);
+
+    gl.vertexAttribPointer(a_Normal, 3, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(a_Normal);
+  }
+
   helperTriangleCreateSurface();
   helperTriangleCreateTexture();
+  helperTriangleCreateNormals();
 
   gl.drawArrays(gl.TRIANGLES, 0, verticeCount);
 }

@@ -1,3 +1,13 @@
+
+const sin =( number) => {
+  return Math.sin(number);
+}
+const cos =( number) => {
+  return Math.cos(number);
+}
+
+
+
 class Vector {
     constructor(opt_src) {
         var v = new Float32Array(3);

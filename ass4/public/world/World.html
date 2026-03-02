@@ -15,13 +15,28 @@
       </div>
     </div>
     <div class="flex gap20">
-      <div><canvas id="webgl" width="400" height="400">Please use a browser that supports "canvas"</canvas></div>
-      <div>Move: WASD</div>
-      <div>Shift: Descend</div>
-      <div>Space: Ascend</div>
-      <div>Scroll Wheel: Zoom</div>
+      <div><canvas id="webgl" width="1400" height="600">Please use a browser that supports "canvas"</canvas></div>
+    </div>
+
+    <div class="flex gap20">
+    <div>Move: WASD</div>
+    <div>Shift: Descend</div>
+    <div>Space: Ascend</div>
+    <div>Scroll Wheel: Zoom</div>
+    <div>Escape: Escape Mouse Camera Movement</div>
     <button id ="normalOn">Normal ON</button>
     <button id ="normalOff">Normal Off</button>
+    <button id ="cameraMovement">Camera Movement Toggle</button>
+    </div>
+
+    <div class = "flex gap20">
+      <div class ="flex gap20">Light X<input type = "range" min ="-250" max = "250" value = "0" class = "slider" id = "lightSliderX"></div>
+      <div class ="flex gap20">Light Y<input type = "range" min ="-250" max = "250" value = "0" class = "slider" id = "lightSliderY"></div>
+      <div class ="flex gap20">Light Z<input type = "range" min ="-250" max = "250" value = "0" class = "slider" id = "lightSliderZ"></div>
+
+
+
+
     </div>
 
     <div id="numdot">xxx</div>
@@ -35,6 +50,7 @@
     <script src="Texture.js"></script>
     <script src="GLSL/Update.js"></script>
     <script src="Object/Cube.js"></script>
+    <script src="Object/Sphere.js"></script>
     <script src="Object/Fox.js"></script>
     <script src="Object/Texture.js"></script>
     <script src="Object/Triangle.js"></script>

@@ -9,6 +9,7 @@ var VSHADER_SOURCE =
 
   varying vec2 v_UV;
   varying vec3 v_Normal;
+  varying vec4 v_VertPos;
   uniform mat4 u_ModelMatrix;
   uniform mat4 u_GlobalRotateMatrix;
   uniform mat4 u_ViewMatrix;
@@ -17,6 +18,7 @@ var VSHADER_SOURCE =
     gl_Position =  u_ProjectionMatrix * u_ViewMatrix * u_GlobalRotateMatrix * u_ModelMatrix * a_Position;
     v_UV = a_UV;
     v_Normal = a_Normal;
+    v_VertPos = u_ModelMatrix * a_Position;
   }
 `
 
@@ -26,9 +28,12 @@ var FSHADER_SOURCE =
   precision mediump float;
   varying vec2 v_UV;
   varying vec3 v_Normal;
+  varying vec4 v_VertPos;
   uniform vec4 u_FragColor;
   uniform sampler2D u_Sampler;
   uniform int u_WhichTexture;
+  uniform vec3 u_LightPos;
+  uniform vec3 u_CameraPos;
 
   void main() {
     if (u_WhichTexture == -3) {
@@ -42,5 +47,31 @@ var FSHADER_SOURCE =
     } else {
       gl_FragColor = vec4(1, .2, .2, 1); // red error color
     }
+
+
+    vec3 lightVector =  u_LightPos- vec3(v_VertPos);
+
+
+    float r = length(lightVector);
+    //if (r < 1.0) {
+    //  gl_FragColor = vec4(1,0,0,1);
+    //} else if (r<2.0) {
+    // gl_FragColor = vec4(0,1, 0,1);
+    //}
+    //gl_FragColor = vec4(vec3(gl_FragColor) / (r * r), 1);
+    vec3 L = normalize(lightVector);
+    vec3 N = normalize(v_Normal);
+    float nDotL = max(dot(N, L), 0.0);
+
+    // reflection
+    vec3 R = reflect(-L, N);
+    // eye
+    vec3 E = normalize(u_CameraPos - vec3(v_VertPos));
+
+    float specular = pow(max(dot(E, R), 0.0), 10.0);
+
+    vec3 diffuse = vec3(gl_FragColor) * nDotL * 0.7;
+    vec3 ambient = vec3(gl_FragColor) * 0.3;
+    gl_FragColor = vec4(specular + diffuse + ambient, 1.0);
   }
 `

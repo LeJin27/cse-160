@@ -17,7 +17,7 @@ class Camera {
     f = f.div(f.magnitude());
     f = f.mul(speed);
     this.currentY += speed;
-    console.log(this.currentY);
+    //console.log(this.currentY);
     this.at = this.at.add(f);
     this.eye = this.eye.add(f);
   };
@@ -26,7 +26,7 @@ class Camera {
     f = f.div(f.magnitude());
     f = f.mul(speed);
     this.currentY -= speed;
-    console.log(this.currentY);
+    //console.log(this.currentY);
     this.at = this.at.sub(f);
     this.eye = this.eye.sub(f);
   };
@@ -58,7 +58,7 @@ class Camera {
   };
 
   right = (speed) => {
-    console.log("Going Right");
+    //console.log("Going Right");
     let f = this.at.sub(this.eye);
     f = f.div(f.magnitude());
     let s = Vector.cross(f, this.up);

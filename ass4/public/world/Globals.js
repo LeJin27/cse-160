@@ -10,6 +10,8 @@ let a_UV;
 let a_Normal;
 let u_FragColor;
 let u_WhichTexture;
+let u_LightPos;
+let u_CameraPos;
 
 
 
@@ -18,6 +20,7 @@ let g_globalAngleX = 0;
 let g_globalAngleY = 0;
 let g_globalZoom = 1;
 let g_normalOn = true;
+let g_cameraMovement = true;
 
 //let g_eye = [0, 0, 3]
 //let g_at = [0, 0, -100]
@@ -35,6 +38,9 @@ let g_seconds = performance.now() / 1000.0 - g_startTime;
 // webgl 
 let g_buffer;
 let g_uvBuffer;
+let g_normalBuffer;
+
+let g_lightPos = [0, 1, -2]
 
 // matrix
 let u_ModelMatrix;
@@ -110,6 +116,17 @@ const connectGlobalsToGLSL = () => {
     console.log("Failed to get the storage location of u_FragColor");
     return;
   }
+  u_LightPos = gl.getUniformLocation(gl.program, "u_LightPos");
+  if (!u_LightPos) {
+    console.log("Failed to get the storage location of u_LightPos");
+    return;
+  }
+  u_CameraPos = gl.getUniformLocation(gl.program, "u_CameraPos");
+  if (!u_CameraPos) {
+    console.log("Failed to get the storage location of u_CameraPos");
+    return;
+  }
+
 
   u_WhichTexture = gl.getUniformLocation(gl.program, 'u_WhichTexture');
   if (!u_WhichTexture) {
@@ -125,6 +142,11 @@ const connectGlobalsToGLSL = () => {
   g_uvBuffer = gl.createBuffer();
   if (!g_uvBuffer) {
     console.log("Failed to create the uv buffer object");
+    return -1;
+  }
+  g_normalBuffer = gl.createBuffer();
+  if (!g_normalBuffer) {
+    console.log("Failed to create the normal buffer object");
     return -1;
   }
 

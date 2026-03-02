@@ -4,10 +4,15 @@ const updateFrame = () => {
 
   updateInput();
   updateAnimationAngles();
+  updateLightPos();
   updateScene();
+
   requestAnimationFrame(updateFrame);
 };
 
+const updateLightPos =() => {
+  g_lightPos[0] = Math.cos(g_seconds);
+}
 
 
 const updateInput = () => {
@@ -22,6 +27,7 @@ const updateInput = () => {
   if (g_keyPressed['x']) g_camera.rotateY(-30 * step);
   if (g_keyPressed[' ']) g_camera.ascend(step);
   if (g_keyPressed['shift']) g_camera.descend(step);
+  if (g_keyPressed['escape']) g_cameraMovement = false;
 }
 
 const updateScene = () => {
@@ -40,18 +46,45 @@ const updateScene = () => {
   //drawRocks()
 
   // floor
-  var floor = new Cube();
-  floor.setColor(GRASS_COLOR)
-  floor.matrix.translate(0, -0.5, 0.0);
-  floor.matrix.scale(32, 1, 32);
-  floor.matrix.translate(0, -1, 0.0);
-  floor.render();
+  //var floor = new Cube();
+  //floor.setColor(GRASS_COLOR)
+  //floor.matrix.scale(10, 0, 10);
+  //floor.matrix.translate(-0.5, -0.5, -0.5);
+  //floor.isPlane = true;
+  //floor.render();
 
   // sky
   var sky = new Cube();
   sky.setColor(SKY_COLOR);
-  sky.matrix.scale(10, 10, 10);
+  if (g_normalOn) {
+    sky.textureType = -3;
+  }
+  sky.matrix.scale(-5, -5, -5);
+  sky.matrix.translate(-0.5, -1, -0.5);
   sky.render();
+
+  gl.uniform3f(u_LightPos, g_lightPos[0], g_lightPos[1], g_lightPos[2]);
+  gl.uniform3f(u_CameraPos, g_camera.eye.elements[0], g_camera.eye.elements[1], g_camera.eye.elements[2]);
+  var light =new Cube();
+  light.textureType = TEXTURE_TYPE_COLOR;
+  light.color = [2, 2, 0, 1];
+  light.matrix.translate(g_lightPos[0], g_lightPos[1], g_lightPos[2]);
+  light.matrix.scale(-.1, -.1, -.1, );
+  light.matrix.translate(-0.5, -0.5, -0.5, );
+  light.render();
+
+  var sphere = new Sphere();
+  sphere.setColor(GRASS_COLOR)
+  if (g_normalOn) {
+    sphere.textureType = -3;
+  }
+  sphere.matrix.scale(2, 2, 2);
+  sphere.matrix.translate(0, 2, 0.0);
+  sphere.render();
+
+
+
+
 
   let duration = performance.now() - startTime;
   const len = "placeholder";

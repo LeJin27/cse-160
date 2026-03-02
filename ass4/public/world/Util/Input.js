@@ -23,11 +23,15 @@ const addActionsForHtmlUI = () => {
   document.getElementById('normalOff').onclick = () => {
     g_normalOn = false;
   }
+  document.getElementById('cameraMovement').onclick = () => {
+    g_cameraMovement = !g_cameraMovement;
+    console.log(g_cameraMovement);
+  }
 
 
 canvas.addEventListener("mousedown", (ev) => {
   if (ev.button !== 0) return;
-  canvas.requestPointerLock();
+  //canvas.requestPointerLock();
 });
 
 
@@ -36,10 +40,11 @@ addEventListener("mousemove", (ev) => {
 
   const dy = ev.movementY;
   const sensitivity = 0.2;
-  g_camera.rotate(-dx * sensitivity);
-  g_camera.pitch(-dy * sensitivity);
+  if (g_cameraMovement) {
+    g_camera.rotate(-dx * sensitivity);
+    g_camera.pitch(-dy * sensitivity);
 
-
+  }
 })
 
 document.addEventListener("keydown", (ev) => {
@@ -51,6 +56,21 @@ document.addEventListener("keyup", (ev) => {
   const keyLetter = ev.key.toLowerCase();
   g_keyPressed[keyLetter] = false
 });
+document.getElementById("lightSliderX").addEventListener("input", function () {
+  g_lightPos[0] = this.value / 100;
+  updateScene();
+});
+
+document.getElementById("lightSliderY").addEventListener("input", function () {
+  g_lightPos[1] = this.value / 100;
+  updateScene();
+});
+
+document.getElementById("lightSliderZ").addEventListener("input", function () {
+  g_lightPos[2] = this.value / 100;
+  updateScene();
+});
+
 
 };
 
