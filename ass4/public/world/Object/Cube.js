@@ -7,6 +7,7 @@ class Cube {
     this.textureType = 0;
     this.isCustomTexture = false;
     this.customTextureIndex = 0;
+    this.specularSetting = 1;
     this.isPlane = false;
   }
 
@@ -32,6 +33,7 @@ class Cube {
       useTexture(this.customTextureIndex);
     }
     gl.uniform1i(u_WhichTexture, this.textureType);
+    gl.uniform1i(u_SpecularSetting, this.specularSetting);
 
 
     gl.uniformMatrix4fv(u_ModelMatrix, false, this.matrix.elements)

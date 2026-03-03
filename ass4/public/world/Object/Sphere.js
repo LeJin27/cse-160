@@ -7,6 +7,7 @@ class Sphere {
     this.textureType = 0;
     this.isCustomTexture = false;
     this.customTextureIndex = 0;
+    this.specularSetting = 1;
     this.isPlane = false;
   }
 
@@ -32,6 +33,7 @@ class Sphere {
     if (this.textureType === TEXTURE_TYPE_CUSTOM) {
       useTexture(this.customTextureIndex);
     }
+    gl.uniform1i(u_SpecularSetting, this.specularSetting);
     gl.uniform1i(u_WhichTexture, this.textureType);
 
 

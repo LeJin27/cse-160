@@ -15,6 +15,15 @@ const addActionsForHtmlUI = () => {
   //    }
   //  }
   //};
+    document.getElementById('lightOff').onclick = () => {
+    g_lightOn = false;
+    updateScene();
+
+  }
+  document.getElementById('lightOn').onclick = () => {
+    g_lightOn = true;
+    updateScene();
+  }
 
   document.getElementById('normalOn').onclick = () => {
     g_normalOn = true;

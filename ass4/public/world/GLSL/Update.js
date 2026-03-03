@@ -36,8 +36,10 @@ const updateScene = () => {
 
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
+  gl.uniform1f(u_LightOn, g_lightOn);
 
-  //drawFoxy();
+
+  drawFoxy();
 
 
 
@@ -61,6 +63,7 @@ const updateScene = () => {
   }
   sky.matrix.scale(-5, -5, -5);
   sky.matrix.translate(-0.5, -1, -0.5);
+  sky.specularSetting = 0;
   sky.render();
 
   gl.uniform3f(u_LightPos, g_lightPos[0], g_lightPos[1], g_lightPos[2]);

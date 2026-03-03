@@ -11,6 +11,8 @@ let a_Normal;
 let u_FragColor;
 let u_WhichTexture;
 let u_LightPos;
+let u_LightOn;
+let g_lightOn = true;
 let u_CameraPos;
 
 
@@ -44,6 +46,7 @@ let g_lightPos = [0, 1, -2]
 
 // matrix
 let u_ModelMatrix;
+let u_SpecularSetting;
 let u_GlobalRotateMatrix;
 let u_ProjectionMatrix;
 let u_ViewMatrix;
@@ -90,7 +93,17 @@ const connectGlobalsToGLSL = () => {
     console.log('Failed to get the storage location of u_Texture');
     return false;
   }
+    u_SpecularSetting = gl.getUniformLocation(gl.program, 'u_SpecularSetting');
+  if (!u_SpecularSetting) {
+    console.log('Failed to get the storage location of u_SpecularSetting');
+    return false;
+  }
 
+    u_LightOn = gl.getUniformLocation(gl.program, 'u_LightOn');
+  if (!u_LightOn) {
+    console.log('Failed to get the storage location of u_LightOn');
+    return false;
+  }
   // // Get the storage location of a_Position
   a_Position = gl.getAttribLocation(gl.program, "a_Position");
   if (a_Position < 0) {
