@@ -1,7 +1,7 @@
 
 // prettier-ignore
 class Model {
-    constructor(gl, filePath) {
+    constructor(filePath) {
         this.filePath = filePath;
         this.color = [1.0, 1.0, 1.0, 1.0]
         this.matrix = new Matrix4();
@@ -24,6 +24,7 @@ class Model {
         const lines = fileContent.split("\n");
         const allVertices = []
         const allNormals = []
+        const allFaces = []
         const unpackedVerts = [];
         const unpackedNormals = [];
 
@@ -66,29 +67,34 @@ class Model {
         
     }
 
-    render(gl, program) {
+    render() {
         if (!this.isFullyLoaded) return;
         gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexBuffer);
         gl.bufferData(gl.ARRAY_BUFFER, this.modelData.vertices, gl.DYNAMIC_DRAW);
-        gl.vertexAttribPointer(program.a_Position, 3, gl.FLOAT, false, 0, 0);
-        gl.enableVertexAttribArray(program.a_Position);
+        gl.vertexAttribPointer(a_Position, 3, gl.FLOAT, false, 0, 0);
+        gl.enableVertexAttribArray(a_Position);
 
 
         // set noramls
         gl.bindBuffer(gl.ARRAY_BUFFER, this.normalBuffer);
         gl.bufferData(gl.ARRAY_BUFFER, this.modelData.normals, gl.DYNAMIC_DRAW);
-        gl.vertexAttribPointer(program.a_Normal, 3, gl.FLOAT, false, 0, 0);
-        gl.enableVertexAttribArray(program.a_Normal);
+        gl.vertexAttribPointer(a_Normal, 3, gl.FLOAT, false, 0, 0);
+        gl.enableVertexAttribArray(a_Normal);
+
+        gl.disableVertexAttribArray(a_UV);
+        gl.vertexAttrib2f(a_UV, 0.0, 0.0);
 
         // set uniforms
-        gl.uniformMatrix4fv(program.u_ModelMatrix, false, this.matrix.elements);
-        gl.uniform4fv(program.u_FragColor, this.color);
+        gl.uniform1i(u_WhichTexture, TEXTURE_TYPE_COLOR);
+        gl.uniform1i(u_SpecularSetting, 1);
+        gl.uniformMatrix4fv(u_ModelMatrix, false, this.matrix.elements);
+        gl.uniform4fv(u_FragColor, this.color);
 
 
         // normal matrix 
         let normalMatrix = new Matrix4().setInverseOf(this.matrix);
         normalMatrix.transpose();
-        gl.uniformMatrix4fv(program.u_NormalMatrix, false, normalMatrix.elements);
+        gl.uniformMatrix4fv(u_NormalMatrix, false, normalMatrix.elements);
 
 
 
@@ -107,3 +113,4 @@ class Model {
         }
     }
 }
+

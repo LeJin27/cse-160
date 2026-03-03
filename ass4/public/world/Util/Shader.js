@@ -11,14 +11,16 @@ var VSHADER_SOURCE =
   varying vec3 v_Normal;
   varying vec4 v_VertPos;
   uniform mat4 u_ModelMatrix;
+  uniform mat4 u_NormalMatrix;
   uniform mat4 u_GlobalRotateMatrix;
   uniform mat4 u_ViewMatrix;
   uniform mat4 u_ProjectionMatrix;
   void main() {
-    gl_Position =  u_ProjectionMatrix * u_ViewMatrix * u_GlobalRotateMatrix * u_ModelMatrix * a_Position;
+    mat4 worldMatrix = u_GlobalRotateMatrix * u_ModelMatrix;
+    gl_Position =  u_ProjectionMatrix * u_ViewMatrix * worldMatrix * a_Position;
     v_UV = a_UV;
-    v_Normal = a_Normal;
-    v_VertPos = u_ModelMatrix * a_Position;
+    v_Normal = normalize(vec3((u_GlobalRotateMatrix * u_NormalMatrix) * vec4(a_Normal, 0.0)));
+    v_VertPos = worldMatrix * a_Position;
   }
 `
 
@@ -70,7 +72,7 @@ var FSHADER_SOURCE =
     // eye
     vec3 E = normalize(u_CameraPos - vec3(v_VertPos));
 
-    float specular = pow(max(dot(E, R), 0.0), 200.0);
+    float specular = pow(max(dot(E, R), 0.0), 400.0);
 
     vec3 diffuse = vec3(gl_FragColor) * nDotL * 0.7;
     vec3 ambient = vec3(gl_FragColor) * 0.3;
@@ -84,3 +86,4 @@ var FSHADER_SOURCE =
     }
   }
 `
+

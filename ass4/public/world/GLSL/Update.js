@@ -36,7 +36,9 @@ const updateScene = () => {
 
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-  gl.uniform1f(u_LightOn, g_lightOn);
+  gl.uniform1i(u_LightOn, g_lightOn ? 1 : 0);
+  gl.uniform3f(u_LightPos, g_lightPos[0], g_lightPos[1], g_lightPos[2]);
+  gl.uniform3f(u_CameraPos, g_camera.eye.elements[0], g_camera.eye.elements[1], g_camera.eye.elements[2]);
 
 
   drawFoxy();
@@ -56,18 +58,18 @@ const updateScene = () => {
   //floor.render();
 
   // sky
+
   var sky = new Cube();
   sky.setColor(SKY_COLOR);
   if (g_normalOn) {
     sky.textureType = -3;
   }
-  sky.matrix.scale(-5, -5, -5);
-  sky.matrix.translate(-0.5, -1, -0.5);
+  sky.matrix.scale(5,5 , 5);
+  sky.matrix.translate(-0.5, 0, -0.5);
   sky.specularSetting = 0;
+  sky.invertNormals = true;
   sky.render();
 
-  gl.uniform3f(u_LightPos, g_lightPos[0], g_lightPos[1], g_lightPos[2]);
-  gl.uniform3f(u_CameraPos, g_camera.eye.elements[0], g_camera.eye.elements[1], g_camera.eye.elements[2]);
   var light =new Cube();
   light.textureType = TEXTURE_TYPE_COLOR;
   light.color = [2, 2, 0, 1];
@@ -81,9 +83,18 @@ const updateScene = () => {
   if (g_normalOn) {
     sphere.textureType = -3;
   }
-  sphere.matrix.scale(2, 2, 2);
-  sphere.matrix.translate(0, 2, 0.0);
+  sphere.matrix.scale(-2, -2, -2);
+  sphere.matrix.translate(0, -2, 0.0);
   sphere.render();
+
+  if (!g_Teapot) {
+    g_Teapot = new Model("teapot.obj");
+    g_Teapot.color = [1.0, 0.5, 0.5, 1.0];
+    g_Teapot.matrix.setScale(0.3, 0.3, 0.3);
+    g_Teapot.matrix.rotate(67, 0, 1, 1);
+    g_Teapot.matrix.translate(0, 0, 0);
+  }
+  g_Teapot.render();
 
 
 
@@ -156,3 +167,6 @@ const updateAnimationAngles = () => {
   //  animationList.ANIMATION_BODY_SIZE =((Math.sin(speed) + 1) / 2);
   //}
 };
+
+
+

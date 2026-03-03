@@ -7,7 +7,9 @@ class Cube {
     this.textureType = 0;
     this.isCustomTexture = false;
     this.customTextureIndex = 0;
+    this.normalMatrix = new Matrix4();
     this.specularSetting = 1;
+    this.invertNormals = false;
     this.isPlane = false;
   }
 
@@ -28,6 +30,7 @@ class Cube {
 
   render () {
     var rgba = this.color;
+    const normalSign = this.invertNormals ? -1 : 1;
 
     if (this.textureType === TEXTURE_TYPE_CUSTOM) {
       useTexture(this.customTextureIndex);
@@ -42,8 +45,12 @@ class Cube {
     let rgba_lower_light = rgba
     if (!this.isPlane) {
 
+    let normalMatrix = new Matrix4().setInverseOf(this.matrix);
+    normalMatrix.transpose();
+    gl.uniformMatrix4fv(u_NormalMatrix, false, normalMatrix.elements);
+
     gl.uniform4f(u_FragColor, rgba_lower_light[0], rgba_lower_light[1], rgba_lower_light[2], rgba[3]);
-    const frontNormals = [0,0,-1, 0,0,-1, 0,0,-1]
+    const frontNormals = [0,0,-1 * normalSign, 0,0,-1 * normalSign, 0,0,-1 * normalSign]
     drawTriangle3DUVNormal([0,0,0, 0,1,0, 1,1,0], [0,0, 0,1, 1,1], frontNormals);
     drawTriangle3DUVNormal([0,0,0, 1,1,0, 1,0,0], [0,0, 1,1, 1,0], frontNormals);
 
@@ -52,14 +59,14 @@ class Cube {
     // back face
     //rgba_lower_light = rgba.map((color) => color * 0.9)
     gl.uniform4f(u_FragColor, rgba_lower_light[0], rgba_lower_light[1], rgba_lower_light[2], rgba[3]);
-    const backNormals = [0,0,1, 0,0,1, 0,0,1]
+    const backNormals = [0,0,1 * normalSign, 0,0,1 * normalSign, 0,0,1 * normalSign]
     drawTriangle3DUVNormal([1,0,1,  1,1,1,  0,1,1], [0,0, 0,1, 1,1], backNormals);
     drawTriangle3DUVNormal([1,0,1,  0,1,1,  0,0,1], [0,0, 1,1, 1,0], backNormals);
 
     // top face
     //rgba_lower_light = rgba.map((color) => color * 0.4)
     gl.uniform4f(u_FragColor, rgba_lower_light[0], rgba_lower_light[1], rgba_lower_light[2], rgba[3]);
-    const topNormals = [0,1,0, 0,1,0, 0,1,0];
+    const topNormals = [0,1 * normalSign,0, 0,1 * normalSign,0, 0,1 * normalSign,0];
     drawTriangle3DUVNormal([0,1,1,  0,1,0,  1,1,0], [0,0, 0,1, 1,1],topNormals);
     drawTriangle3DUVNormal([0,1,1,  1,1,0,  1,1,1], [0,0, 1,1, 1,0],topNormals);
 
@@ -69,13 +76,13 @@ class Cube {
     //left face
     //rgba_lower_light = rgba.map((color) => color * 0.6)
     gl.uniform4f(u_FragColor, rgba_lower_light[0], rgba_lower_light[1], rgba_lower_light[2], rgba[3]);
-    const leftNormals = [-1,0,0, -1,0,0, -1,0,0];
+    const leftNormals = [-1 * normalSign,0,0, -1 * normalSign,0,0, -1 * normalSign,0,0];
     drawTriangle3DUVNormal([0,0,1,  0,1,1,  0,1,0], [0,0, 0,1, 1,1], leftNormals);
     drawTriangle3DUVNormal([0,0,1,  0,1,0,  0,0,0], [0,0, 1,1, 1,0], leftNormals);
 
     // right face
     //rgba_lower_light = rgba.map((color) => color * 0.8)
-    const rightNormals = [1,0,0, 1,0,0, 1,0,0];
+    const rightNormals = [1 * normalSign,0,0, 1 * normalSign,0,0, 1 * normalSign,0,0];
     gl.uniform4f(u_FragColor, rgba_lower_light[0], rgba_lower_light[1], rgba_lower_light[2], rgba[3]);
     drawTriangle3DUVNormal([1,0,0,  1,1,0,  1,1,1], [0,0, 0,1, 1,1], rightNormals);
     drawTriangle3DUVNormal([1,0,0,  1,1,1,  1,0,1], [0,0, 1,1, 1,0], rightNormals);
@@ -84,8 +91,9 @@ class Cube {
     // bottom face
     //rgba_lower_light = rgba.map((color) => color * 0.5)
     gl.uniform4f(u_FragColor, rgba_lower_light[0], rgba_lower_light[1], rgba_lower_light[2], rgba[3]);
-    const bottomNormals = [0,-1,0, 0,-1,0, 0,-1,0];
+    const bottomNormals = [0,-1 * normalSign,0, 0,-1 * normalSign,0, 0,-1 * normalSign,0];
     drawTriangle3DUVNormal([0,0,0,  0,0,1,  1,0,1], [0,0, 0,1, 1,1], bottomNormals);
     drawTriangle3DUVNormal([0,0,0,  1,0,1,  1,0,0], [0,0, 1,1, 1,0], bottomNormals);
   }
 }
+

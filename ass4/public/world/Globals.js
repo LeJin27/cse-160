@@ -46,6 +46,7 @@ let g_lightPos = [0, 1, -2]
 
 // matrix
 let u_ModelMatrix;
+let u_NormalMatrix;
 let u_SpecularSetting;
 let u_GlobalRotateMatrix;
 let u_ProjectionMatrix;
@@ -168,6 +169,11 @@ const connectGlobalsToGLSL = () => {
     console.log("Failed to get the storage location of u_GlobalRotateMatrix");
     return;
   }
+  u_NormalMatrix = gl.getUniformLocation(gl.program, "u_NormalMatrix",);
+  if (!u_NormalMatrix) {
+    console.log("Failed to get the storage location of u_NormalMatrix");
+    return;
+  }
 
   u_ViewMatrix = gl.getUniformLocation(gl.program, "u_ViewMatrix",);
   if (!u_ViewMatrix) {
@@ -216,4 +222,4 @@ const animationList = {
   ANIMATION_BODY_SIZE: 0,
 };
 
-let teapot;
+let g_Teapot;
